@@ -1,27 +1,42 @@
 ## bigdata-pipeline
 
-##Ingestor
+######Ingestor
 
-##Druid
+To install and run nginx on Mac OS X
+$ brew install nginx
+$ sudo nginx
+$ curl localhost
 
+The logfiles are located in /usr/local/var/log/nginx/access.log in the nginx log format.
+They contain requests to localhost.
+
+To run the program for parsing the curl requests:
+$ python test2.py /usr/local/var/log/nginx/access.log file.txt
+
+where file.txt is the document you want to store the logs in.
+The program will keep running in the background until you press C-c
+
+To see the generated curl requests as they are added to access.log, on another window:
+$ tail -f /usr/local/var/log/nginx/access.log
+
+This will also keep running until you press C-c
+
+Generate the curl requests on another terminal window using
+$ curl localhost
+or enter localhost as the URL on a web browser.
+You should see the request added to the access.log file in the nginx log format.
+test2.py running in the background will add the generated requests to file.txt using
+protobuf.
+
+To display the requests:
+$ python listRequest.py file.txt
+The format in which you want to display the messages can be varied.
+
+To automatically generate curl requests to localhost every 5 seconds (delay can be
+varied):
+$ ./curlRequests.sh
+
+######Druid
 
 *Setting up Imply (Druid, Tranquility, Plywood, Pivot) on AWS Instance*
 
-1. Change directories to the location of the private key file (.pem file) that was used to launch the instance.
-2. Use the chmod command to ensure private key file isn’t public. 
-  * Ex: `chmod 400 /path-to/pipeline.pem`
-3. ssh into your instance. Specify .pem file as well as your unique public DNS name, shown below.
-  * Sample ssh command: `ssh -i /path-to/pipeline.pem your-public-dns.computer.amazonaws.com`
-4. If the instance asks if you are sure you want to continue connecting, enter yes.
-5. To run Druid, Tranquility and all the other associated tools, we need Java 8 JDK. Check if Java 8 JDK is installed on your instance. (`java -version`)
-6. If not, visit:  [Java JDK Download](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) to find the appropriate Java JDK. Accept the License Agreement, but instead of downloading onto your local machine, right-click and copy the link of the download. 
-7. Install and cd into the Imply package
-  * `curl -O http://static.imply.io/release/imply-1.3.0.tar.gz`
-  * `tar -xzf imply-1.3.0.tar.gz`
-  * `cd imply-1.3.0`
-8. Check that you have the following packages: 
-  * bin/*, conf/*, conf-quickstart/*, dist/*, quickstart/*
-9. Exit the Imply directory. 
-sudo apt-get update
-sudo apt-get install build-essential
-sudo apt-get install python-software-properties
