@@ -1,0 +1,18 @@
+package trial;
+
+message Request {
+  required string remote_addr = 1;
+  required string remote_user = 2;
+  required string time_local = 3;
+  required string request = 4;
+  required string status = 5;      // int
+  required string bytes_sent = 6;  // int
+  required string http_referer = 7;
+  required string http_user_agent = 8;
+  optional string gzip_ratio = 9;
+}
+
+// Log file
+message Log {
+  repeated Request request = 1;
+}
